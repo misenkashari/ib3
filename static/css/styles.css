@@ -1,0 +1,16 @@
+body{
+  font-family: 'SF-Pro Display', sans-serif;
+}
+header{
+  font-family: 'SF-Pro Rounded', sans-serif;
+}
+.misen{
+  font-family: 'SF-Pro Rounded', sans-serif;
+  color: white;
+}
+.misen:hover{
+  text-decoration: none;
+  color: white;
+}
+
+

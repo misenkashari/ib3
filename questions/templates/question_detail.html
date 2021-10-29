@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  question details
+{% endblock title %}
+
+{% block content %}
+<h1 style="font-family: 'SF-Pro Bold', sans-serif;">Question ID: {{question.id}}</h1>
+  <p class="text-info">{{question.question}}</p>
+  <h3 style="font-family: 'SF-Pro Bold', sans-serif;">Most recent answers:</h3>
+  <br/>
+    {% if not question.answers.all %}
+    <h5 class="text-muted">No answers yet...</h5>
+    {% else %}
+    {% for answer in question.answers.all %}
+    <hr>
+    <div class="row">
+        <div class="col-lg-1"><strong>{{answer.user | title}}</strong></div>
+        <div class="col-lg-3 text-primary">{{answer.timestamp}}</div>
+        <div class="col-lg-8" style="color: black;"><small>{{answer.answer}}</small></div>
+    </div>
+    <form action="{% url 'questions:like-answer' answer.pk %}" method="post">
+        {% csrf_token %}
+      <div class="row">
+        {% if answer.is_liked %}
+        <div class="col-lg-1 mt-2">
+          <label>
+          <input type="submit" name="answer_id" value="{{answer.id}}" style="display: none;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor" class="bi bi-heart-fill text-danger" viewBox="0 0 16 16" style="cursor: pointer;">
+            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+          </svg>
+        </input>
+      </label>
+      </div>
+      {% else %}
+        <div class="col-lg-1 mt-2">
+          <label>
+          <input type="submit" name="answer_id" value="{{answer.id}}" style="display: none;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16" style="cursor: pointer;">
+          <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+         </svg>
+        </input>
+      </label>
+      </div>
+      {% endif %}
+      <div class="col-lg-3 mt-2 text-muted"><strong class="mr-2" style="color: black;">{{answer.likes_count}}</strong> <small>people like this answer.</small> </div>
+      </div>
+      </form>
+    <hr>
+    {% endfor %}
+    {% endif %}
+    <br>
+  <form action="{% url 'questions:answer' question.pk %}" method="post">
+    {% csrf_token %}
+    {{form|crispy}}
+    <br>
+    <div class="text-muted text-center">
+    <button type="submit" class="btn btn-primary col-md-4"> <span class="fas fa-comments"></span>Answer</button>
+  </form>
+   </div>
+
+{% endblock content %}

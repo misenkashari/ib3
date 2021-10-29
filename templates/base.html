@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <title>{% block title %}
+    {% endblock title %}@QaApp</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="{% url 'questions:index' %}">  <img src="{% static 'img/python.png' %}" alt="" width="30" height="24" class="d-inline-block align-text-top">
+                Python FAQ</a>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'questions:index' %}">Home</a>
+                  </li>
+                </ul>
+              </div>
+              <a href="{% url 'account_logout' %}" class="misen nav-item">Logout</a>
+            </div>
+          </nav>
+    </header>
+    <div class="container mt-5">
+        {% block content %}
+          
+        {% endblock content %}
+    </div>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/datatables.min.js' %}"></script>
+</body>
+</html>

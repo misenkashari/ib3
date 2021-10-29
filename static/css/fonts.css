@@ -1,0 +1,28 @@
+  @font-face {
+    font-family: 'SF-Pro Display';
+    src: local('SF-Pro'),
+         url('../fonts/SF-Pro-Display-Regular.otf') format("opentype");
+    font-display: optional;
+    font-size: optional;
+  }
+  @font-face {
+    font-family: 'SF-Pro Bold';
+    src: local('SF-Pro Bold'),
+         url('../fonts/SF-Pro-Display-Black.otf') format("opentype");
+    font-display: optional;
+    font-size: optional;
+  }
+  @font-face {
+    font-family: 'SF-Pro Text';
+    src: local('SF-Pro Text'),
+         url('../fonts/SF-Pro-Text-Regular.otf') format("opentype");
+    font-display: optional;
+    font-size: optional;
+  }
+  @font-face {
+    font-family: 'SF-Pro Rounded';
+    src: local('SF-Pro Rounded'),
+         url('../fonts/SF-Pro-Rounded-Regular.otf') format("opentype");
+    font-display: optional;
+    font-size: optional;
+  }
