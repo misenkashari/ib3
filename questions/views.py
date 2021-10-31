@@ -2,11 +2,10 @@ from django.db.models.query_utils import Q
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 from django.views.generic import *
-from questions.forms import AnswerForm, QuestionForm
+from .forms import *
 from django.http import HttpResponseRedirect
 from questions.models import Answer, Question
-
-# Create your views here.
+from django.core.exceptions import PermissionDenied
 
 def landing_page(request):
     return render(request, "landing.html")
@@ -37,7 +36,10 @@ def LikeAnswer(request, pk):
 
 def question_delete(request, pk):
     question = Question.objects.get(id=pk)
-    question.delete()
+    if request.user.is_staff or request.user == question.author:
+        question.delete()
+    else:
+        raise PermissionDenied("Access forbidden 403. Are you the author of this question?")
     return redirect('questions:index')
 
 class QuestionCreateView(CreateView):
@@ -96,10 +98,19 @@ class SearchResultsView(ListView):
             return q_list
         return Question.objects.all().order_by('-timestamp')
 
-class QuestionUpdateView(UpdateView):
-    model = Question
-    template_name = 'question_update.html'
-    form_class = QuestionForm
-
-    def get_success_url(self):
-        return reverse("questions:index")
+def question_update(request, pk):
+    question = Question.objects.get(id=pk)
+    form = QuestionForm(instance=question)
+    if request.user.is_staff or request.user == question.author:
+        if request.method == 'POST':
+            form = QuestionForm(request.POST, instance=question)
+            if form.is_valid():
+                form.save()
+                return redirect('questions:index')
+    else:
+        raise PermissionDenied("Access forbidden 403. Are you the author of this question?")
+    context = {
+        'form': form,
+        'question': question
+    }
+    return render(request, 'question_update.html', context)

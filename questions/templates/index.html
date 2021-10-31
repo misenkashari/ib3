@@ -26,7 +26,7 @@
     <form action="{% url 'questions:like' question.pk %}" method="post">
       {% csrf_token %}
     <div class="row">
-      {% if question.is_liked %}
+      {% if user in question.likes.all %}
       <div class="col-lg-1 mt-2">
         <label>
         <input type="submit" name="question_id" value="{{question.id}}" style="display: none;">
@@ -49,7 +49,7 @@
     {% endif %}
     <div class="col-lg-3 mt-2 text-muted"><strong class="mr-2" style="color: black;">{{question.likes_count}}</strong> <small>people like this question.</small> </div>
     <div class="col-lg-3 mt-2 text-primary"><small> <a href="{% url 'questions:details' question.pk %}" style="text-decoration: none;"> Check all the answers... </a></small></div>
-    {% if request.user.is_staff %}
+    {% if request.user.is_staff or request.user == question.author %}
     <div class="col-lg-4 mt-2 text-primary text-right"><small><a href="{% url 'questions:update' question.id %}">Update</a></small><strong class="text-muted"> | <small></strong><a href="{% url 'questions:delete' question.id %}" onclick="return confirm('Are you sure to delete this question?');" class="text-danger">Delete</a></small></div>
     {% endif %}
     </div>

@@ -13,5 +13,5 @@ urlpatterns = [
     path('<int:pk>/likeanswer', LikeAnswer, name='like-answer'),
     path('search/', SearchResultsView.as_view(), name='search'),
     path('<int:pk>/delete/', question_delete, name='delete'),
-    path('<int:pk>/update/', QuestionUpdateView.as_view(), name='update')
+    path('<int:pk>/update/', question_update, name='update'),
 ]
